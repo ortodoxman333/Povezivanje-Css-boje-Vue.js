@@ -1,0 +1,84 @@
+<!DOCTYPE html> 
+<html>
+     <head>
+	   <meta charset="utf-8">
+	  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	 <style>
+		 .kvadrat {
+			 height: 100px;
+			 width: 100px;
+			 border:1px solid black;
+			 padding: 8px;
+		 }
+		 .blue {
+			 background-color: darkblue;
+		 }
+		 .red {
+			 background-color: darkred;
+		 }
+		 .yellow {
+			 background-color: gold;
+		 }
+	 </style>
+	 </head>
+	 <body>
+
+		<div id="app">
+			<select v-model="odabranElement">
+				<option v-for="klasa in moguceKlase" :value= "klasa.naziv">
+					{{klasa.natpis}}
+				</option>
+			</select>
+			<div class="kvadrat" :class="odabranElement">
+			</div>
+		<div>
+        <div>
+			<input type="range" min="0" max="255" v-model="colorRed"/>
+		</div>
+		<div>
+			<input type="range" min="0" max="255" v-model="colorGreen"/>
+		</div>
+		<div>
+			<input type="range" min="0" max="255" v-model="colorBlue"/>
+		</div>
+		</div>
+		<div>
+		{{colorRed}} {{colorGreen}} {{colorBlue}}
+	</div>
+		<script>
+
+			   var mainVue = new Vue ({
+				   el: "#app",
+				   data: function () {
+					   return {
+						   moguceKlase: [
+							   {natpis: "Nebesko plava", naziv: "blue"},
+							   {natpis: "Lava crveno", naziv: "red"},
+							   {natpis: "Zlatno zuta", naziv: "yellow"}
+						   ],
+						   odabranElement: null,
+						   colorRed:0,
+						   colorGreen:0,
+						   colorBlue:0
+					   }
+				   },
+				   methods: {
+
+				   },
+				   computed: {
+					   trenutnaPozadina () {
+						   return {
+							   backgroundColor: 'rgb('+this.colorRed+','+this.colorGreen+','+this.colorBlue+')'
+						   }
+					   }
+				   },
+				   watch: {
+                          trenutnaPozadina(newValue) {
+						localStorage.setItem ("boja",JSON.stringify(newValue));
+							  }
+						  }
+			   });
+		</script>
+	 </body>
+	 </html>
